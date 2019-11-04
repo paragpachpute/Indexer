@@ -3,6 +3,7 @@ package umass.searchengine.query;
 import java.util.List;
 
 import umass.searchengine.model.CorpusStatistics;
+import umass.searchengine.model.DocumentScore;
 import umass.searchengine.model.InvertedIndex;
 
 public interface Query {
@@ -13,8 +14,8 @@ public interface Query {
 	 * @param queryTerms array of query terms to evaluate for
 	 * @param lookup table it contains some stats about the collection
 	 * @param k number of relevant documents to return
-	 * @return list of scores for top k documents
+	 * @return list of scores for top k documents along with their document ids
 	 */
-	List<Integer> query(InvertedIndex invertedIndex, String[] queryTerms, CorpusStatistics stats, int k);
+	List<DocumentScore> query(InvertedIndex invertedIndex, String[] queryTerms, CorpusStatistics stats, int k);
 
 }

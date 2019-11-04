@@ -7,14 +7,16 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import umass.searchengine.indexer.AuxiliaryTableCreator;
+import umass.searchengine.model.DocumentScore;
 import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.Posting;
 import umass.searchengine.model.PostingList;
 import umass.searchengine.query.DocumentAtATime;
+import umass.searchengine.ranking.CountScores;
 
 public class TestDocumentAtATime {
 	
-	DocumentAtATime documentAtATime = new DocumentAtATime();
+	DocumentAtATime documentAtATime = new DocumentAtATime(new CountScores());
 	
 	@Test
 	public void testQuery() {
@@ -42,10 +44,10 @@ public class TestDocumentAtATime {
 		System.out.println(index);
 		
 		String[] terms = new String[] {"a", "b"};
-		List<Integer> docIds = documentAtATime.query(index, terms, AuxiliaryTableCreator.createStatsTable(index), 1);
+		List<DocumentScore> docIds = documentAtATime.query(index, terms, AuxiliaryTableCreator.createStatsTable(index), 1);
 		
 		Assertions.assertEquals(1, docIds.size());
-		Assertions.assertSame(2, docIds.get(0));
+		Assertions.assertSame(2, docIds.get(0).getDocId());
 	}
 
 }

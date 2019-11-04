@@ -18,7 +18,7 @@ import umass.searchengine.utils.FileUtils;
 public class CalculateDice {
 
 	public static void main(String[] args) throws IOException {
-		InvertedIndex invertedIndex = IndexCreator.create(new DatasetLoader().load());
+		InvertedIndex invertedIndex = new IndexCreator().create(new DatasetLoader().load());
 		LookupTable lookup = AuxiliaryTableCreator.createLookupTable(invertedIndex);
 		List<String> termsList = invertedIndex.getUniqueWords().stream().collect(Collectors.toList());
 		int totalWords = termsList.size();
@@ -44,9 +44,9 @@ public class CalculateDice {
 			output14Tokens.append("\n");
 		}
 		
-		String fileName = "./src/data/7_tokens";
+		String fileName = "7_tokens";
 		FileUtils.writeLines(fileName, output7Tokens);
-		fileName = "./src/data/14_tokens";
+		fileName = "14_tokens";
 		FileUtils.writeLines(fileName, output14Tokens);
 
 	}

@@ -45,7 +45,8 @@ public class FileUtils {
 	}
 
 	public static void writeLines(String fileName, StringBuffer output) throws IOException {
-		BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+		String filePath = "./src/data/";
+		BufferedWriter writer = new BufferedWriter(new FileWriter(filePath + fileName));
 		writer.append(output);
 		writer.close();
 	}

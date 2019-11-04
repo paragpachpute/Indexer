@@ -1,6 +1,8 @@
 package umass.searchengine.indexer;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import umass.searchengine.model.CorpusStatistics;
@@ -36,14 +38,22 @@ public class AuxiliaryTableCreator {
 		CorpusStatistics stats = new CorpusStatistics();
 		stats.setNumOfUniqueTerms(invertedIndex.size());
 
+		Map<Integer, Integer> docLengths = new HashMap<>();
 		int totalTerms = 0;
 		Set<Integer> sceneNums = new HashSet<>();
 		for (String term : invertedIndex.getUniqueWords()) {
 			totalTerms += invertedIndex.get(term).getCollectionTermFreq();
-			invertedIndex.get(term).getPostingsList().stream().forEach(p -> sceneNums.add(p.getSceneNum()));
+			invertedIndex.get(term).getPostingsList().stream().forEach(p -> {
+				sceneNums.add(p.getSceneNum());
+				if (docLengths.containsKey(p.getSceneNum()))
+					docLengths.put(p.getSceneNum(), docLengths.get(p.getSceneNum()) + p.getPositions().size());
+				else
+					docLengths.put(p.getSceneNum(), p.getPositions().size());
+			});
 		}
 		stats.setNumOfTerms(totalTerms);
 		stats.setNumOfDocs(sceneNums.size());
+		stats.setDocLengths(docLengths);
 		return stats;
 	}
 }

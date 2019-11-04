@@ -1,10 +1,13 @@
 package umass.searchengine.model;
 
+import java.util.Map;
+
 public class CorpusStatistics {
 	
 	private long numOfDocs;
 	private long numOfTerms;
 	private long numOfUniqueTerms;
+	private Map<Integer, Integer> docLengths;
 	
 	/**
 	 * @return the numOfDocs
@@ -49,6 +52,18 @@ public class CorpusStatistics {
 	public String toString() {
 		return "CorpusStatistics [numOfDocs=" + numOfDocs + ", numOfTerms=" + numOfTerms + ", numOfUniqueTerms="
 				+ numOfUniqueTerms + "]";
+	}
+	/**
+	 * @return the docLengths
+	 */
+	public Map<Integer, Integer> getDocLengths() {
+		return docLengths;
+	}
+	/**
+	 * @param docLengths the docLengths to set
+	 */
+	public void setDocLengths(Map<Integer, Integer> docLengths) {
+		this.docLengths = docLengths;
 	}
 
 }

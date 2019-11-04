@@ -9,6 +9,7 @@ import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 import umass.searchengine.query.DocumentAtATime;
 import umass.searchengine.query.Query;
+import umass.searchengine.ranking.CountScores;
 import umass.searchengine.utils.FileUtils;
 
 public class CompressionHypothesisValidation {
@@ -39,7 +40,7 @@ public class CompressionHypothesisValidation {
 			String tokensFileName = "./src/data/" + tokens + "_tokens";
 			List<String> queryTermLines = FileUtils.readLines(tokensFileName);
 			
-			Query query = new DocumentAtATime();
+			Query query = new DocumentAtATime(new CountScores());
 			for (String line : queryTermLines) {
 				query.query(invertedIndex, line.split(" "), stats, 5);
 			}

@@ -15,7 +15,7 @@ public class CalculateStatistics {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = IndexCreator.create(corpus);
+		InvertedIndex invertedIndex = new IndexCreator().create(corpus);
 
 		CorpusStatistics stats = AuxiliaryTableCreator.createStatsTable(invertedIndex);
 

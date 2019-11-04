@@ -13,7 +13,7 @@ public class IndexCreator {
 	 * @param corpus
 	 * @return
 	 */
-	public static InvertedIndex create(Corpus corpus) {
+	public InvertedIndex create(Corpus corpus) {
 		InvertedIndex invertedIndex = new InvertedIndex();
 		
 		for (Scene scene : corpus.getCorpus()) {

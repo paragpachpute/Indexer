@@ -1,5 +1,6 @@
 package umass.searchengine.query;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -11,33 +12,58 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 import umass.searchengine.model.CorpusStatistics;
+import umass.searchengine.model.DocumentScore;
 import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.Posting;
+import umass.searchengine.ranking.Scorer;
 
 public class DocumentAtATime implements Query {
+	
+	private Scorer scorer;
+
+	/**
+	 * @param scorer
+	 * @param scoreComparator
+	 */
+	public DocumentAtATime(Scorer scorer) {
+		super();
+		this.scorer = scorer;
+	}
 
 	@Override
-	public List<Integer> query(InvertedIndex invertedIndex, String[] queryTerms, CorpusStatistics stats, int k) {
+	public List<DocumentScore> query(InvertedIndex invertedIndex, String[] queryTerms, CorpusStatistics stats, int k) {
 		Map<String, ListIterator<Posting>> L = new HashMap<>();
 		for (String term : queryTerms) {
 			L.put(term, invertedIndex.get(term).getPostingsList().listIterator());
 		}
-
+		
 		Queue<DocumentScore> priorityQueue = new PriorityQueue<>(k, scoreComparator);
-		for (int d = 1; d <= stats.getNumOfDocs(); d++) {
-			int docScore = 0;
+		for (int d = 0; d < stats.getNumOfDocs(); d++) {
+			double docScore = 0;
+			boolean scored = false;
 			for (String term : L.keySet()) {
+				int ni = invertedIndex.get(term).getDocumentFreq();
+				int qfi = Collections.frequency(Arrays.asList(queryTerms), term);
+				int cqi = invertedIndex.get(term).getCollectionTermFreq();
+				int fi = 0;
+				int dl = stats.getDocLengths().get(d);
+				
 				if (L.get(term).hasNext()) {
 					Posting posting = L.get(term).next();
 					if (posting.getSceneNum() == d) {
-						docScore += posting.getTermFreq();
+						scored = true;
+						fi = posting.getTermFreq();
 					} else {
 						L.get(term).previous();
 					}
 				}
+				docScore += scorer.score(ni, fi, qfi, cqi, dl);
 			}
 			DocumentScore documentScore = new DocumentScore(d, docScore);
-			priorityQueue.add(documentScore);
+			
+			if (scored)
+				priorityQueue.add(documentScore);
+			
 			if (priorityQueue.size() == k + 1) {
 				// Removes the element having least score
 				priorityQueue.remove();
@@ -45,7 +71,7 @@ public class DocumentAtATime implements Query {
 		}
 		
 //		priorityQueue.stream().forEach(ds -> System.out.println(ds.getDocId()+ ":" + ds.getScoreId()));
-		List<Integer> docIds = priorityQueue.stream().sorted(scoreComparator).map(ds -> ds.getDocId()).collect(Collectors.toList());
+		List<DocumentScore> docIds = priorityQueue.stream().sorted(scoreComparator).collect(Collectors.toList());
 		Collections.reverse(docIds);
 //		docIds.stream().forEach(ds -> System.out.println(ds));
 		return docIds;
@@ -54,34 +80,12 @@ public class DocumentAtATime implements Query {
 	
 	Comparator<DocumentScore> scoreComparator = (d1, d2) -> {
 		// Ascending order
-		return d1.getScore() - d2.getScore();
+		if (d1.getScore() > d2.getScore())
+			return 1;
+		else if (d1.getScore() < d2.getScore())
+			return -1;
+		else
+			return 0;
 	};
-	
-	private class DocumentScore {
-		private int docId;
-		private int score;
-		
-		public DocumentScore(int docId, int scoreId) {
-			super();
-			this.docId = docId;
-			this.score = scoreId;
-		}
-
-		public int getDocId() {
-			return docId;
-		}
-
-		public int getScore() {
-			return score;
-		}
-
-		/* (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
-		@Override
-		public String toString() {
-			return "DocumentScore [docId=" + docId + ", score=" + score + "]";
-		}
-	}
 
 }

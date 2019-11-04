@@ -21,7 +21,7 @@ public class BuildAndWriteIndex {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = IndexCreator.create(corpus);
+		InvertedIndex invertedIndex = new IndexCreator().create(corpus);
 		LookupTable lookup = AuxiliaryTableCreator.createLookupTable(invertedIndex);
 		System.out.println("Index created");
 		
