@@ -2,12 +2,14 @@ package umass.searchengine.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
-public class Posting {
-	
+public class Posting implements Cloneable {
+
 	private int sceneNum;
 	private int termFreq;
 	private List<Integer> positions;
+	private ListIterator<Integer> it;
 	
 	/**
 	 * @param sceneNum
@@ -47,7 +49,7 @@ public class Posting {
 	/**
 	 * @return the sceneNum
 	 */
-	public int getSceneNum() {
+	public int getDocumentId() {
 		return sceneNum;
 	}
 
@@ -70,6 +72,58 @@ public class Posting {
 	 */
 	public void setSceneNum(int sceneNum) {
 		this.sceneNum = sceneNum;
+	}
+	
+	public void beginIteration() {
+		it = positions.listIterator();
+	}
+	
+	public int next() {
+		return it.hasNext() ? it.next() : -1;
+	}
+	
+	public int nextCandidate() {
+		if (!it.hasNext())
+			return -1;
+		int next = it.next();
+		it.previous();
+		return next;
+	}
+	
+	public int skipTo(int pos) {
+		while (it != null && it.hasNext()) {
+			int p = it.next();
+			if (p >= pos) {
+				return p;
+			}
+		}
+		return -1;
+	}
+	
+	public int currentPosition() {
+		int pos = -1;
+		if (it != null && it.hasPrevious()) {
+			pos = it.previous();
+			it.next();
+		}
+		return pos;
+	}
+	
+	public void goToPrevious() {
+		it.previous();
+	}
+	
+	public boolean hasNext() {
+		return it.hasNext();
+	}
+	
+	@Override
+	protected Posting clone() throws CloneNotSupportedException {
+		List<Integer> clonedPositions = new ArrayList<>();
+		for (Integer i : this.positions)
+			clonedPositions.add(i);
+		Posting newPosting = new Posting(this.sceneNum, this.termFreq, clonedPositions);
+		return newPosting;
 	}
 
 	/* (non-Javadoc)

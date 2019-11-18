@@ -77,8 +77,8 @@ public class TestDeltaEncoder {
 		System.out.println(index);
 		
 		Assertions.assertSame(2, index.get(term).size());
-		Assertions.assertSame(1, index.get(term).get(0).getSceneNum());
-		Assertions.assertSame(3, index.get(term).get(1).getSceneNum());
+		Assertions.assertSame(1, index.get(term).get(0).getDocumentId());
+		Assertions.assertSame(3, index.get(term).get(1).getDocumentId());
 		Assertions.assertSame(1, index.get(term).get(0).getPositions().get(0));
 		Assertions.assertSame(2, index.get(term).get(0).getPositions().get(1));
 		Assertions.assertSame(3, index.get(term).get(1).getPositions().get(0));
@@ -87,8 +87,8 @@ public class TestDeltaEncoder {
 		encoder.encode(index);
 		
 		Assertions.assertSame(2, index.get(term).size());
-		Assertions.assertSame(1, index.get(term).get(0).getSceneNum());
-		Assertions.assertSame(2, index.get(term).get(1).getSceneNum());
+		Assertions.assertSame(1, index.get(term).get(0).getDocumentId());
+		Assertions.assertSame(2, index.get(term).get(1).getDocumentId());
 		Assertions.assertSame(1, index.get(term).get(0).getPositions().get(0));
 		Assertions.assertSame(1, index.get(term).get(0).getPositions().get(1));
 		Assertions.assertSame(3, index.get(term).get(1).getPositions().get(0));
@@ -122,8 +122,8 @@ public class TestDeltaEncoder {
 		encoder.encode(index);
 		
 		Assertions.assertSame(2, index.get(term).size());
-		Assertions.assertSame(1, index.get(term).get(0).getSceneNum());
-		Assertions.assertSame(2, index.get(term).get(1).getSceneNum());
+		Assertions.assertSame(1, index.get(term).get(0).getDocumentId());
+		Assertions.assertSame(2, index.get(term).get(1).getDocumentId());
 		Assertions.assertSame(1, index.get(term).get(0).getPositions().get(0));
 		Assertions.assertSame(1, index.get(term).get(0).getPositions().get(1));
 		Assertions.assertSame(3, index.get(term).get(1).getPositions().get(0));
@@ -132,8 +132,8 @@ public class TestDeltaEncoder {
 		encoder.decode(index);
 		
 		Assertions.assertSame(2, index.get(term).size());
-		Assertions.assertSame(1, index.get(term).get(0).getSceneNum());
-		Assertions.assertSame(3, index.get(term).get(1).getSceneNum());
+		Assertions.assertSame(1, index.get(term).get(0).getDocumentId());
+		Assertions.assertSame(3, index.get(term).get(1).getDocumentId());
 		Assertions.assertSame(1, index.get(term).get(0).getPositions().get(0));
 		Assertions.assertSame(2, index.get(term).get(0).getPositions().get(1));
 		Assertions.assertSame(3, index.get(term).get(1).getPositions().get(0));

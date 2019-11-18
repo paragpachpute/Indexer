@@ -13,4 +13,5 @@ module search_engine {
 	exports  umass.searchengine.model;
 	exports  test.umass.searchengine.encoder;
 	exports	 test.umass.searchengine.query;
+	exports  test.umass.searchengine.inference.network.proximity;
 }

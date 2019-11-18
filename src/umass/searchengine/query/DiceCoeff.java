@@ -15,7 +15,7 @@ public class DiceCoeff {
 			int Nab = 0;
 			for (Posting aPostings : invertedIndex.get(a).getPostingsList()) {
 				for (Posting bPostings : invertedIndex.get(b).getPostingsList()) {
-					if (aPostings.getSceneNum() == bPostings.getSceneNum())
+					if (aPostings.getDocumentId() == bPostings.getDocumentId())
 						Nab += getAdjecentcyScore(aPostings.getPositions(), bPostings.getPositions());
 				}
 			}

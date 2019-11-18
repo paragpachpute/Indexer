@@ -33,7 +33,7 @@ public class IndexCreator {
 						// for current scene id
 						PostingList wordPostingList = invertedIndex.get(word);
 						Posting latestPosting = wordPostingList.get(wordPostingList.size() - 1);
-						if (latestPosting.getSceneNum() == scene.getSceneNum()) {
+						if (latestPosting.getDocumentId() == scene.getSceneNum()) {
 							latestPosting.addPosition(i+1);
 						} else {
 							Posting posting = new Posting(scene.getSceneNum());

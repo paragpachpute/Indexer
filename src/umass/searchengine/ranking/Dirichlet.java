@@ -2,16 +2,16 @@ package umass.searchengine.ranking;
 
 public class Dirichlet implements Scorer {
 	private double mu;
-	private int C; // collection count
+	private long C; // collection count
 
 	/**
 	 * @param mu
 	 * @param c
 	 */
-	public Dirichlet(double mu, int c) {
+	public Dirichlet(double mu, long c) {
 		super();
 		this.mu = mu;
-		C = c;
+		this.C = c;
 	}
 
 	@Override

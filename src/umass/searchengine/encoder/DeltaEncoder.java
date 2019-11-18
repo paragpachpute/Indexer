@@ -17,8 +17,8 @@ public class DeltaEncoder {
 			int previousSceneNum = 0;
 			for (Posting p : invertedIndex.get(term).getPostingsList()) {
 				encodeList(p.getPositions());
-				int origSceneNum = p.getSceneNum();
-				p.setSceneNum(p.getSceneNum() - previousSceneNum);
+				int origSceneNum = p.getDocumentId();
+				p.setSceneNum(p.getDocumentId() - previousSceneNum);
 				previousSceneNum = origSceneNum;
 			}
 		}
@@ -34,7 +34,7 @@ public class DeltaEncoder {
 			for (int i = 1; i < plist.getPostingsList().size(); i++) {
 				Posting currentPosting = plist.get(i);
 				Posting previousPosting = plist.get(i - 1);
-				currentPosting.setSceneNum(currentPosting.getSceneNum() + previousPosting.getSceneNum());
+				currentPosting.setSceneNum(currentPosting.getDocumentId() + previousPosting.getDocumentId());
 				decodeList(currentPosting.getPositions());
 			}
 			//decode list would not be called for first posting hence calling here explicitly

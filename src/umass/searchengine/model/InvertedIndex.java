@@ -18,6 +18,15 @@ public class InvertedIndex {
 		return map.get(key);
 	}
 
+	public PostingList getCopy(String key) {
+		try {
+			return (PostingList) map.get(key).clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public Set<String> getUniqueWords() {
 		return map.keySet();
 	}
@@ -34,7 +43,7 @@ public class InvertedIndex {
 		Map<Integer, Integer> sceneLength = new HashMap<Integer, Integer>();
 		for (String word : getUniqueWords()) {
 			map.get(word).getPostingsList().stream()
-					.forEach(posting -> sceneLength.merge(posting.getSceneNum(), posting.getTermFreq(), Integer::sum));
+					.forEach(posting -> sceneLength.merge(posting.getDocumentId(), posting.getTermFreq(), Integer::sum));
 		}
 		return sceneLength;
 	}

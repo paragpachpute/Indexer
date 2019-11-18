@@ -44,11 +44,11 @@ public class AuxiliaryTableCreator {
 		for (String term : invertedIndex.getUniqueWords()) {
 			totalTerms += invertedIndex.get(term).getCollectionTermFreq();
 			invertedIndex.get(term).getPostingsList().stream().forEach(p -> {
-				sceneNums.add(p.getSceneNum());
-				if (docLengths.containsKey(p.getSceneNum()))
-					docLengths.put(p.getSceneNum(), docLengths.get(p.getSceneNum()) + p.getPositions().size());
+				sceneNums.add(p.getDocumentId());
+				if (docLengths.containsKey(p.getDocumentId()))
+					docLengths.put(p.getDocumentId(), docLengths.get(p.getDocumentId()) + p.getPositions().size());
 				else
-					docLengths.put(p.getSceneNum(), p.getPositions().size());
+					docLengths.put(p.getDocumentId(), p.getPositions().size());
 			});
 		}
 		stats.setNumOfTerms(totalTerms);

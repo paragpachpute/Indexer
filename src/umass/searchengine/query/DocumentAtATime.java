@@ -50,7 +50,7 @@ public class DocumentAtATime implements Query {
 				
 				if (L.get(term).hasNext()) {
 					Posting posting = L.get(term).next();
-					if (posting.getSceneNum() == d) {
+					if (posting.getDocumentId() == d) {
 						scored = true;
 						fi = posting.getTermFreq();
 					} else {

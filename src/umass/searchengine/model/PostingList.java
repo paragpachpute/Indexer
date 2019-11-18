@@ -2,17 +2,22 @@ package umass.searchengine.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
-public class PostingList { 
+public class PostingList implements Cloneable { 
 	
 	private List<Posting> list;
+
 	private int documentFreq;
+	private ListIterator<Posting> it;
 	
 	/**
 	 * @param documentFreq
 	 */
 	public PostingList() {
 		list = new ArrayList<>();
+		it = list.listIterator();
 	}
 	
 	public void add(Posting p) {
@@ -22,6 +27,54 @@ public class PostingList {
 	
 	public Posting get(int index) {
 		return list.get(index);
+	}
+	
+	public Posting skipTo(int docId) {
+		while (it != null && it.hasNext()) {
+			Posting p = it.next();
+			if (p.getDocumentId() >= docId) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	public void beginIteration() {
+		it = list.listIterator();
+	}
+	
+	public Posting nextCandidate() {
+		if (!it.hasNext())
+			return null;
+		Posting next = it.next();
+		it.previous();
+		return next;
+	}
+	
+	public Posting currentDocument() {
+		if (!it.hasPrevious())
+			return null;
+		Posting prev = it.previous();
+		it.next();
+		return prev;
+	}
+	
+	public void goToPrevious() {
+		it.previous();
+	}
+	
+	public boolean hasNext() {
+		return it.hasNext();
+	}
+	
+	public boolean isFinished() {
+		try {
+			it.next();
+			it.previous();
+			return false;
+		} catch (NoSuchElementException e) {
+			return true;
+		}
 	}
 
 	/**
@@ -50,6 +103,18 @@ public class PostingList {
 	 */
 	public int getCollectionTermFreq() {
 		return list.stream().map(posting -> posting.getTermFreq()).reduce(0, Integer::sum);
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		PostingList newList = new PostingList();
+		for (Posting p : list) {
+			newList.add(p.clone());
+		}
+		return newList;
 	}
 
 	/* (non-Javadoc)
