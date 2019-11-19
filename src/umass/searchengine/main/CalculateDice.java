@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import umass.searchengine.indexer.AuxiliaryTableCreator;
 import umass.searchengine.indexer.IndexCreator;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.loader.DatasetLoader;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 import umass.searchengine.query.DiceCoeff;
 import umass.searchengine.utils.FileUtils;
@@ -18,7 +18,7 @@ import umass.searchengine.utils.FileUtils;
 public class CalculateDice {
 
 	public static void main(String[] args) throws IOException {
-		InvertedIndex invertedIndex = new IndexCreator().create(new DatasetLoader().load());
+		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(new DatasetLoader().load());
 		LookupTable lookup = AuxiliaryTableCreator.createLookupTable(invertedIndex);
 		List<String> termsList = invertedIndex.getUniqueWords().stream().collect(Collectors.toList());
 		int totalWords = termsList.size();

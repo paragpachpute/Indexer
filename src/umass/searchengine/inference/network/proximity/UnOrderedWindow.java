@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.CorpusStatistics;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.Posting;
 import umass.searchengine.ranking.Scorer;
 

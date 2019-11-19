@@ -11,9 +11,9 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.CorpusStatistics;
 import umass.searchengine.model.DocumentScore;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.Posting;
 import umass.searchengine.ranking.Scorer;
 

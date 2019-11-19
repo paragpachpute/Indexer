@@ -2,7 +2,7 @@ package umass.searchengine.encoder;
 
 import java.nio.ByteBuffer;
 
-import umass.searchengine.model.InvertedIndex;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 
 public class CombinedCompressor implements Compressor {

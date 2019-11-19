@@ -1,8 +1,10 @@
-package umass.searchengine.model;
+package umass.searchengine.indexer;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import umass.searchengine.model.PostingList;
 
 public class InvertedIndex {
 	Map<String, PostingList> map;

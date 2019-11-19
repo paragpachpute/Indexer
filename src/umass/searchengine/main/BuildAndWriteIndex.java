@@ -10,9 +10,9 @@ import umass.searchengine.encoder.Compressor;
 import umass.searchengine.encoder.CompressorFactory;
 import umass.searchengine.indexer.AuxiliaryTableCreator;
 import umass.searchengine.indexer.IndexCreator;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.loader.DatasetLoader;
 import umass.searchengine.model.Corpus;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 import umass.searchengine.utils.FileUtils;
 import umass.searchengine.utils.IndexerUtils;
@@ -21,7 +21,7 @@ public class BuildAndWriteIndex {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = new IndexCreator().create(corpus);
+		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(corpus);
 		LookupTable lookup = AuxiliaryTableCreator.createLookupTable(invertedIndex);
 		System.out.println("Index created");
 		

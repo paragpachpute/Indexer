@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import umass.searchengine.model.CorpusStatistics;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.Lookup;
 import umass.searchengine.model.LookupTable;
 

@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.Corpus;
-import umass.searchengine.model.InvertedIndex;
 
 public class IndexerUtils {
 

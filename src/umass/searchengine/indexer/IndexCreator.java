@@ -1,7 +1,6 @@
 package umass.searchengine.indexer;
 
 import umass.searchengine.model.Corpus;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.Posting;
 import umass.searchengine.model.PostingList;
 import umass.searchengine.model.Scene;
@@ -13,7 +12,7 @@ public class IndexCreator {
 	 * @param corpus
 	 * @return
 	 */
-	public InvertedIndex create(Corpus corpus) {
+	public InvertedIndex createInvertedIndex(Corpus corpus) {
 		InvertedIndex invertedIndex = new InvertedIndex();
 		
 		for (Scene scene : corpus.getCorpus()) {
@@ -46,6 +45,11 @@ public class IndexCreator {
 			}
 		}
 		return invertedIndex;
+	}
+	
+	public DocumentVectorIndex createIndex(Corpus corpus) {
+		// TODO implement this function
+		return null;
 	}
 	
 	private static PostingList createNewPostingListAndAddPosting(int sceneNum, int position) {

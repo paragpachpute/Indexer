@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import umass.searchengine.encoder.Compressor;
 import umass.searchengine.encoder.CompressorFactory;
-import umass.searchengine.model.InvertedIndex;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 
 public class FileUtils {

@@ -109,7 +109,7 @@ public class PostingList implements Cloneable {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public Object clone() throws CloneNotSupportedException {
 		PostingList newList = new PostingList();
 		for (Posting p : list) {
 			newList.add(p.clone());

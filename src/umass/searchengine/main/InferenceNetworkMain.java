@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import umass.searchengine.indexer.AuxiliaryTableCreator;
 import umass.searchengine.indexer.IndexCreator;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.inference.network.InferenceNetwork;
 import umass.searchengine.inference.network.QueryNode;
 import umass.searchengine.inference.network.belief.AndNode;
@@ -24,7 +25,6 @@ import umass.searchengine.loader.DatasetLoader;
 import umass.searchengine.model.Corpus;
 import umass.searchengine.model.CorpusStatistics;
 import umass.searchengine.model.DocumentScore;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.query.DocumentAtATime;
 import umass.searchengine.query.Query;
 import umass.searchengine.ranking.BM25;
@@ -37,7 +37,7 @@ public class InferenceNetworkMain {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = new IndexCreator().create(new DatasetLoader().load());
+		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(new DatasetLoader().load());
 		CorpusStatistics stats = AuxiliaryTableCreator.createStatsTable(invertedIndex);
 		
 		InferenceNetwork network = new InferenceNetwork();

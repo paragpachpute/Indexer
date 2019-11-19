@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Assertions;
 
 import umass.searchengine.indexer.AuxiliaryTableCreator;
 import umass.searchengine.indexer.IndexCreator;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.inference.network.proximity.OrderedWindow;
 import umass.searchengine.inference.network.proximity.WindowNode;
 import umass.searchengine.loader.DatasetLoader;
 import umass.searchengine.model.CorpusStatistics;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.PostingList;
 import umass.searchengine.ranking.Dirichlet;
 import umass.searchengine.ranking.Scorer;
@@ -28,7 +28,7 @@ public class TestOrderedWindow {
 	
 	@Before
 	public void setup() throws IOException {
-		index = new IndexCreator().create(new DatasetLoader().load());
+		index = new IndexCreator().createInvertedIndex(new DatasetLoader().load());
 		stats = AuxiliaryTableCreator.createStatsTable(index);
 		scorer = new Dirichlet(1500, stats.getNumOfTerms());
 	}

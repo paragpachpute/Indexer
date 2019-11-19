@@ -5,17 +5,17 @@ import java.util.Map;
 
 import umass.searchengine.indexer.AuxiliaryTableCreator;
 import umass.searchengine.indexer.IndexCreator;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.loader.DatasetLoader;
 import umass.searchengine.model.Corpus;
 import umass.searchengine.model.CorpusStatistics;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.utils.IndexerUtils;
 
 public class CalculateStatistics {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = new IndexCreator().create(corpus);
+		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(corpus);
 
 		CorpusStatistics stats = AuxiliaryTableCreator.createStatsTable(invertedIndex);
 

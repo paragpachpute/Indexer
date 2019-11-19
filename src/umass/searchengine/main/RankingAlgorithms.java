@@ -5,11 +5,11 @@ import java.util.List;
 
 import umass.searchengine.indexer.AuxiliaryTableCreator;
 import umass.searchengine.indexer.IndexCreator;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.loader.DatasetLoader;
 import umass.searchengine.model.Corpus;
 import umass.searchengine.model.CorpusStatistics;
 import umass.searchengine.model.DocumentScore;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.query.DocumentAtATime;
 import umass.searchengine.query.Query;
 import umass.searchengine.ranking.BM25;
@@ -22,7 +22,7 @@ public class RankingAlgorithms {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = new IndexCreator().create(corpus);
+		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(corpus);
 		CorpusStatistics stats = AuxiliaryTableCreator.createStatsTable(invertedIndex);
 
 		String tokensFileName = "./src/data/ranking_queries";

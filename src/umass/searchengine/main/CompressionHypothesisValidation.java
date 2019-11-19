@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import umass.searchengine.indexer.AuxiliaryTableCreator;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.CorpusStatistics;
-import umass.searchengine.model.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 import umass.searchengine.query.DocumentAtATime;
 import umass.searchengine.query.Query;

@@ -2,9 +2,9 @@ package umass.searchengine.query;
 
 import java.util.List;
 
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.CorpusStatistics;
 import umass.searchengine.model.DocumentScore;
-import umass.searchengine.model.InvertedIndex;
 
 public interface Query {
 	

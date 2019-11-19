@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 
 import umass.searchengine.encoder.VByteEncoder;
 import umass.searchengine.indexer.AuxiliaryTableCreator;
-import umass.searchengine.model.InvertedIndex;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 import umass.searchengine.model.Posting;
 import umass.searchengine.model.PostingList;

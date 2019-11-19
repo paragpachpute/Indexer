@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Assertions;
 
-import umass.searchengine.model.InvertedIndex;
+import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.model.LookupTable;
 import umass.searchengine.utils.FileUtils;
 import umass.searchengine.utils.IndexerUtils;
