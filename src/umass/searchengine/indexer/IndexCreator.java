@@ -1,5 +1,8 @@
 package umass.searchengine.indexer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import umass.searchengine.model.Corpus;
 import umass.searchengine.model.Posting;
 import umass.searchengine.model.PostingList;
@@ -7,21 +10,27 @@ import umass.searchengine.model.Scene;
 
 public class IndexCreator {
 	
+	private DocumentVectorIndex documentIndex;
+	private InvertedIndex invertedIndex;
+	
 	/**
-	 * Creates inverted index from the corpus.
+	 * Creates the indexes from the corpus.
 	 * @param corpus
-	 * @return
+	 * @return IndexCreator so that it can be used in a chain 
 	 */
-	public InvertedIndex createInvertedIndex(Corpus corpus) {
-		InvertedIndex invertedIndex = new InvertedIndex();
+	public IndexCreator create(Corpus corpus) {
+		this.invertedIndex = new InvertedIndex();
+		this.documentIndex = new DocumentVectorIndex();
 		
 		for (Scene scene : corpus.getCorpus()) {
 			String[] text = scene.getText().split("\\s+");
+			Map<String, Double> termCounts = new HashMap<>();
 			
 			for (int i = 0; i < text.length; i++) {
 				String word = text[i];
 				if (!word.strip().equals("")) {
 					
+					termCounts.put(word, termCounts.getOrDefault(word, 0.0) + 1);
 					// Check if word is present in inverted index or not
 					if (invertedIndex.get(word) == null) {
 						PostingList wordPostingList = createNewPostingListAndAddPosting(scene.getSceneNum(), i+1);
@@ -43,13 +52,18 @@ public class IndexCreator {
 					}
 				}
 			}
+			DocumentVector vector = new DocumentVector(termCounts, scene.getSceneNum());
+			documentIndex.addDocumentVector(scene.getSceneNum(), vector);
 		}
-		return invertedIndex;
+		return this;
 	}
 	
-	public DocumentVectorIndex createIndex(Corpus corpus) {
-		// TODO implement this function
-		return null;
+	public InvertedIndex getInvertedIndex() {
+		return this.invertedIndex;
+	}
+	
+	public DocumentVectorIndex getDocumentIndex() {
+		return this.documentIndex;
 	}
 	
 	private static PostingList createNewPostingListAndAddPosting(int sceneNum, int position) {

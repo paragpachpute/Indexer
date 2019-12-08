@@ -28,7 +28,7 @@ public class TestOrderedWindow {
 	
 	@Before
 	public void setup() throws IOException {
-		index = new IndexCreator().createInvertedIndex(new DatasetLoader().load());
+		index = new IndexCreator().create(new DatasetLoader().load()).getInvertedIndex();
 		stats = AuxiliaryTableCreator.createStatsTable(index);
 		scorer = new Dirichlet(1500, stats.getNumOfTerms());
 	}

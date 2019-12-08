@@ -11,6 +11,7 @@ module search_engine {
 	requires java.base;
 	
 	exports  umass.searchengine.model;
+	exports  umass.searchengine.indexer;
 	exports  test.umass.searchengine.encoder;
 	exports	 test.umass.searchengine.query;
 	exports  test.umass.searchengine.inference.network.proximity;

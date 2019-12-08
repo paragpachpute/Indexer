@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import umass.searchengine.model.CorpusStatistics;
+
 public class DocumentVector {
 	
-	private Map<String, Integer> termCounts;
+	private Map<String, Double> termCounts;
 	private int docId;
 	
 	/**
@@ -16,19 +18,29 @@ public class DocumentVector {
 	 */
 	public DocumentVector(int docId) {
 		super();
-		this.docId = docId;
 		this.termCounts = new HashMap<>();
+		this.docId = docId;
+	}
+
+	/**
+	 * @param termCounts
+	 * @param docId
+	 */
+	public DocumentVector(Map<String, Double> termCounts, int docId) {
+		super();
+		this.termCounts = termCounts;
+		this.docId = docId;
 	}
 
 	public void addTerm(String termName, int termCount) {
-		this.termCounts.put(termName, termCount);
+		this.termCounts.put(termName, termCounts.getOrDefault(termName, 0.0) + termCount);
 	}
 	
-	public int getTermCount(String termName) {
-		return this.termCounts.getOrDefault(termName, 0);
+	public double getTermCount(String termName) {
+		return this.termCounts.getOrDefault(termName, 0.0);
 	}
 	
-	public Collection<Integer> getAllTermCount() {
+	public Collection<Double> getAllTermCount() {
 		return this.termCounts.values();
 	}
 	
@@ -40,21 +52,40 @@ public class DocumentVector {
 		return termCounts.keySet();
 	}
 	
-	/**
-	 * Calculates Cosine distance between current document and passed document
-	 * @param vector another document
-	 * @return cosine distance
+	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
 	 */
-	public double calculateDistance(DocumentVector vector) {
-		Set<String> termsPresentInBothDocs = new HashSet<>(getTerms());
-		termsPresentInBothDocs.retainAll(vector.getTerms());
-		int sum = 0;
-		for (String term : termsPresentInBothDocs) {
-			sum += getTermCount(term) * vector.getTermCount(term);
-		}
-		int squaredSum1 = this.getAllTermCount().stream().mapToInt(count -> count*count).sum();
-		int squaredSum2 = vector.getAllTermCount().stream().mapToInt(count -> count*count).sum();
-		return sum / Math.sqrt(squaredSum1 * squaredSum2);
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + docId;
+		result = prime * result + ((termCounts == null) ? 0 : termCounts.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DocumentVector other = (DocumentVector) obj;
+		if (docId != other.docId)
+			return false;
+		if (termCounts == null) {
+			if (other.termCounts != null)
+				return false;
+		} else if (!termCounts.equals(other.termCounts))
+			return false;
+		return true;
 	}
 
 }

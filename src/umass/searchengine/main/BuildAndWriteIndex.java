@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import umass.searchengine.encoder.Compressor;
 import umass.searchengine.encoder.CompressorFactory;
 import umass.searchengine.indexer.AuxiliaryTableCreator;
+import umass.searchengine.indexer.DocumentVectorIndex;
 import umass.searchengine.indexer.IndexCreator;
 import umass.searchengine.indexer.InvertedIndex;
 import umass.searchengine.loader.DatasetLoader;
@@ -21,11 +22,18 @@ public class BuildAndWriteIndex {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(corpus);
+		IndexCreator indexCreator = new IndexCreator().create(corpus);
+		InvertedIndex invertedIndex = indexCreator.getInvertedIndex();
+		DocumentVectorIndex index = indexCreator.getDocumentIndex();
 		LookupTable lookup = AuxiliaryTableCreator.createLookupTable(invertedIndex);
 		System.out.println("Index created");
+
+		String fileName = "documentVectorIndex.json";
+		String json = new ObjectMapper().writeValueAsString(index);
+		FileUtils.writeLines(fileName, new StringBuffer(json));
+		System.out.println("Written Document Vector Index");
 		
-		String fileName = "uncompressedIndex";
+		fileName = "uncompressedIndex";
 		boolean compressionReqd = false;
 
 		ByteBuffer output = ByteBuffer.allocate(IndexerUtils.getSizeOfIndexerInBytes(invertedIndex));

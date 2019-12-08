@@ -37,7 +37,7 @@ public class InferenceNetworkMain {
 
 	public static void main(String[] args) throws IOException {
 		Corpus corpus = new DatasetLoader().load();
-		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(new DatasetLoader().load());
+		InvertedIndex invertedIndex = new IndexCreator().create(new DatasetLoader().load()).getInvertedIndex();
 		CorpusStatistics stats = AuxiliaryTableCreator.createStatsTable(invertedIndex);
 		
 		InferenceNetwork network = new InferenceNetwork();

@@ -18,7 +18,7 @@ import umass.searchengine.utils.FileUtils;
 public class CalculateDice {
 
 	public static void main(String[] args) throws IOException {
-		InvertedIndex invertedIndex = new IndexCreator().createInvertedIndex(new DatasetLoader().load());
+		InvertedIndex invertedIndex = new IndexCreator().create(new DatasetLoader().load()).getInvertedIndex();
 		LookupTable lookup = AuxiliaryTableCreator.createLookupTable(invertedIndex);
 		List<String> termsList = invertedIndex.getUniqueWords().stream().collect(Collectors.toList());
 		int totalWords = termsList.size();

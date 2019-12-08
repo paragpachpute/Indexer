@@ -18,4 +18,8 @@ public class DocumentVectorIndex {
 	public void addDocumentVector(int docId, DocumentVector vector) {
 		this.index.put(docId, vector);
 	}
+
+	public Map<Integer, DocumentVector> getIndex() {
+		return index;
+	}
 }

@@ -8,6 +8,7 @@ import umass.searchengine.model.PostingList;
 
 public class InvertedIndex {
 	Map<String, PostingList> map;
+	Map<Integer, Integer> sceneLength;
 
 	/**
 	 * @param map
@@ -40,13 +41,29 @@ public class InvertedIndex {
 	public int size() {
 		return map.size();
 	}
-
-	public Map<Integer, Integer> getLengthOfScenes() {
-		Map<Integer, Integer> sceneLength = new HashMap<Integer, Integer>();
+	
+	public void genereteSceneLength() {
+		this.sceneLength = new HashMap<Integer, Integer>();
 		for (String word : getUniqueWords()) {
 			map.get(word).getPostingsList().stream()
 					.forEach(posting -> sceneLength.merge(posting.getDocumentId(), posting.getTermFreq(), Integer::sum));
 		}
-		return sceneLength;
 	}
-}
+
+	public Map<Integer, Integer> getLengthOfScenes() {
+		if (this.sceneLength == null)
+			genereteSceneLength();
+		return this.sceneLength;
+	}
+	
+	public int getLengthOfScene(int sceneNum) {
+		return this.sceneLength.get(sceneNum);
+	}
+	 
+	public Double getIdfOfTerm(String term) {
+		if (this.sceneLength == null)
+			genereteSceneLength();
+		
+		return Math.log((this.sceneLength.size() + 1) / (map.get(term).size()+ 0.5));
+	}
+} 
