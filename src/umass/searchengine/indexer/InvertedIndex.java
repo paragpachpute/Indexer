@@ -1,10 +1,13 @@
 package umass.searchengine.indexer;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import umass.searchengine.model.PostingList;
+import umass.searchengine.model.ProbabiltyDistribution;
+import umass.searchengine.utils.FileUtils;
 
 public class InvertedIndex {
 	Map<String, PostingList> map;
@@ -65,5 +68,16 @@ public class InvertedIndex {
 			genereteSceneLength();
 		
 		return Math.log((this.sceneLength.size() + 1) / (map.get(term).size()+ 0.5));
+	}
+
+	public Double getPriorForDocument(int docId, ProbabiltyDistribution probType) throws IOException {
+		String filePath = "./src/data/";
+		switch(probType) {
+		case RANDOM:
+			return Double.parseDouble(FileUtils.readLines(filePath + "random.prior").get(docId));
+		case UNIFORM:
+			return Double.parseDouble(FileUtils.readLines(filePath + "uniform.prior").get(docId));
+		}
+		return null;
 	}
 } 
